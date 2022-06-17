@@ -57,18 +57,40 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// //GET POST
+// router.get("/:slug", async (req, res) => {
+//   const post = await Post.find({ slug: req.params.slug });
+//   if (req.post.slug === req.params.slug) {
+//     try {
+//       return res.status(200).json(post);
+//     } catch (err) {
+//       return res.status(500).json(err);
+//     }
+//   } else {
+//     return res.status(500).json("not found");
+//   }
+// });
+
 //GET POST
-router.get("/:id", async (req, res) => {
-  if (req.body.postsId === req.params.id) {
-    try {
-      const post = await Post.findById(req.params.id);
-      return res.status(200).json(post);
-    } catch (err) {
-      return res.status(500).json(err);
-    }
-  } else {
-    return res.status(401).json("post not found");
+router.get("/:slug", async (req, res) => {
+  try {
+    let post = await Post.findBySlug(req.params.slug);
+    return res.status(200).json(post);
+  } catch (err) {
+    return res.status(500).json(err);
   }
+});
+
+//UPDATE POST VIWES
+
+router.put("/views/:id", async (req, res) => {
+  const post = await Post.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $inc: { views: 1 } },
+    { new: true }
+  );
+
+  return res.status(200).json("views update");
 });
 
 //GET ALL POSTS
@@ -86,7 +108,7 @@ router.get("/", async (req, res) => {
         },
       });
     } else {
-      posts = await Post.find();
+      posts = await Post.find().sort({ createdAt: -1 });
     }
     return res.status(200).json(posts);
   } catch (err) {

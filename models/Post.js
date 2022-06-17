@@ -17,15 +17,20 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    username: {
-      type: String,
+    author: {
+      type: Array,
       required: true,
     },
     categories: {
       type: Array,
       required: false,
     },
+    views: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("post", PostSchema);
+
+PostSchema.statics.findBySlug = function (slug) {
+  return this.where({ slug: new RegExp(slug, "i") });
+};
+module.exports = mongoose.model("Post", PostSchema);
