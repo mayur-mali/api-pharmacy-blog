@@ -22,7 +22,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postsRoute);
 
-app.use(cors({ origin: "*"}));
+app.use(cors({ origin: "*" }));
 
 app.listen(`${port}`, () => {
   console.log("app is running...");

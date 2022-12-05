@@ -93,6 +93,14 @@ router.put("/views/:id", async (req, res) => {
   return res.status(200).json("views update");
 });
 
+// max views post
+
+router.get("/views/max", async (req, res) => {
+  const post = await Post.find({ views: { $gte: 20 } });
+
+  return res.status(200).json({ post });
+});
+
 //GET ALL POSTS
 router.get("/", async (req, res) => {
   const username = req.query.user;
