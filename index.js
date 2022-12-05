@@ -10,6 +10,7 @@ const cors = require("cors");
 dotenv.config();
 
 app.use(express.json());
+app.use(cors({ origin: "*" }));
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -21,8 +22,6 @@ mongoose
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postsRoute);
-
-app.use(cors({ origin: "*" }));
 
 app.listen(`${port}`, () => {
   console.log("app is running...");
