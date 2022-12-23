@@ -1,10 +1,12 @@
 const router = require("express").Router();
-
+const dayjs = require("dayjs");
 const Post = require("../models/Post");
-
+var localizedFormat = require("dayjs/plugin/localizedFormat");
+dayjs.extend(localizedFormat);
 //CREATE POST
 router.post("/", async (req, res) => {
-  const newPost = new Post(req.body);
+  const currentDate = dayjs(new Date()).format("L");
+  const newPost = new Post({ ...req.body, currentDate });
   try {
     const savedPost = await newPost.save();
     return res.status(200).json(savedPost);
@@ -57,20 +59,6 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// //GET POST
-// router.get("/:slug", async (req, res) => {
-//   const post = await Post.find({ slug: req.params.slug });
-//   if (req.post.slug === req.params.slug) {
-//     try {
-//       return res.status(200).json(post);
-//     } catch (err) {
-//       return res.status(500).json(err);
-//     }
-//   } else {
-//     return res.status(500).json("not found");
-//   }
-// });
-
 //GET POST
 router.get("/:slug", async (req, res) => {
   try {
@@ -96,9 +84,22 @@ router.put("/views/:id", async (req, res) => {
 // max views post
 
 router.get("/views/max", async (req, res) => {
-  const post = await Post.find({ views: { $gte: 20 } });
-
-  return res.status(200).json({ post });
+  const post = await Post.find({
+    $and: [
+      {
+        currentDate: {
+          $eq: dayjs(new Date()).format("L"),
+        },
+      },
+      { views: { $gte: 15 } },
+    ],
+  });
+  if (post.length <= 0) {
+    return res.status(400).json({ message: "not found any post" });
+  }
+  if (post) {
+    return res.status(200).json({ post });
+  }
 });
 
 //GET ALL POSTS

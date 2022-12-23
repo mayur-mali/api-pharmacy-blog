@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "mayur-mali",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
+    "dayjs": "^1.11.2",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "mongoose": "^6.3.5",

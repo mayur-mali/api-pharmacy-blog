@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 var slug = require("mongoose-slug-generator");
 mongoose.plugin(slug);
+
 const PostSchema = new mongoose.Schema(
   {
     title: {
@@ -26,6 +27,9 @@ const PostSchema = new mongoose.Schema(
       required: false,
     },
     views: { type: Number, default: 0 },
+    currentDate: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
