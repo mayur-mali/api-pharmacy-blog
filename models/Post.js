@@ -35,6 +35,6 @@ const PostSchema = new mongoose.Schema(
 );
 
 PostSchema.statics.findBySlug = function (slug) {
-  return this.where({ slug: new RegExp(slug, "i") });
+  return this.where({ slug });
 };
 module.exports = mongoose.model("Post", PostSchema);

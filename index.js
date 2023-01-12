@@ -10,7 +10,13 @@ const cors = require("cors");
 dotenv.config();
 
 app.use(express.json());
-app.use(cors({ origin: "*" }));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+  })
+);
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,

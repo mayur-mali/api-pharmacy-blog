@@ -60,10 +60,14 @@ router.delete("/:id", async (req, res) => {
 });
 
 //GET POST
-router.get("/:slug", async (req, res) => {
+router.get("/:id/:slug", async (req, res) => {
   try {
-    let post = await Post.findBySlug(req.params.slug);
-    return res.status(200).json(post);
+    let post = await Post.findById(req.params.id);
+    if (req.params.id == post._id && req.params.slug == post.slug) {
+      return res.status(200).json(post);
+    } else {
+      return res.status(500).json({ m: "not found" });
+    }
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -83,7 +87,7 @@ router.put("/views/:id", async (req, res) => {
 
 // max views post
 
-router.get("/views/max", async (req, res) => {
+router.get("/views", async (req, res) => {
   const post = await Post.find({
     $and: [
       {
@@ -91,14 +95,14 @@ router.get("/views/max", async (req, res) => {
           $eq: dayjs(new Date()).format("L"),
         },
       },
-      { views: { $gte: 15 } },
+      { views: { $gte: 5 } },
     ],
   });
   if (post.length <= 0) {
     return res.status(400).json({ message: "not found any post" });
   }
   if (post) {
-    return res.status(200).json({ post });
+    return res.status(200).json(post);
   }
 });
 
