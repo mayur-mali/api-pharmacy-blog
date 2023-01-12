@@ -18,8 +18,9 @@ router.put("/:id", async (req, res) => {
         { new: true }
       );
       return res.status(200).json(updateUser);
-    } catch (err) {}
-    return res.status(500).json(err);
+    } catch (err) {
+      return res.status(500).json(err);
+    }
   } else {
     return res.status(401).json("You can update only your account!");
   }

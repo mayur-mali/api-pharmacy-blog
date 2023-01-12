@@ -7,6 +7,7 @@ dayjs.extend(localizedFormat);
 router.post("/", async (req, res) => {
   const currentDate = dayjs(new Date()).format("L");
   const newPost = new Post({ ...req.body, currentDate });
+
   try {
     const savedPost = await newPost.save();
     return res.status(200).json(savedPost);
