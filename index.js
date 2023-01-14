@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
 const postsRoute = require("./routes/posts");
+const blogRouter = require("./routes/BlogRouters");
 const cors = require("cors");
 dotenv.config();
 
@@ -29,6 +30,7 @@ mongoose
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postsRoute);
+app.use("/api/blog", blogRouter);
 
 app.listen(`${port}`, () => {
   console.log("app is running...");
