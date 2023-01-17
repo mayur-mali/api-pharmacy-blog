@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 var slug = require("mongoose-slug-generator");
 mongoose.plugin(slug);
 
+const dayjs = require("dayjs");
+var localizedFormat = require("dayjs/plugin/localizedFormat");
+dayjs.extend(localizedFormat);
+
 const blogSchema = new mongoose.Schema({
   title: {
     type: String,
