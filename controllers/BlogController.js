@@ -54,7 +54,7 @@ exports.getBlogById = async (req, res) => {
 exports.updateBlog = async (req, res) => {
   try {
     const blog = await BlogServices.getBlogById(req.params.id);
-    const { slug, title, body, ...others } = blog._doc;
+    const { slug, title, body, image, ...others } = blog._doc;
     if (blog.user == req.body.user) {
       const newSlug = slugFun(req.body.title);
       const updatedblog = await BlogServices.updateBlog(req.params.id, {
@@ -64,7 +64,6 @@ exports.updateBlog = async (req, res) => {
           ...others,
         },
       });
-      console.log(req.body, others, updatedblog);
       res.status(200).json({ data: updatedblog, status: "success" });
     } else {
       res.status(401).json({

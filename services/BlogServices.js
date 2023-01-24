@@ -1,16 +1,5 @@
 const BlogModel = require("../models/Blog");
 
-// exports.getAllBlogs = async () => {
-//   await BlogModel.find({})
-//     .populate("user")
-//     .exec(function (err, blogs) {
-//       if (err) {
-//         return console.log(err);
-//       }
-//       return res.status(200).json(blogs);
-//     });
-// };
-
 exports.createBlog = async (blog) => {
   return await BlogModel.create(blog);
 };
