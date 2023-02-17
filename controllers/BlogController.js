@@ -131,3 +131,45 @@ exports.maxview = async (req, res) => {
     return res.status(400).json(err);
   }
 };
+
+exports.searchBlog = async (req, res) => {
+  const { term } = req.query;
+  if (term) {
+    try {
+      const blogPosts = await BlogModel.aggregate([
+        {
+          $search: {
+            index: "searchBlog",
+            text: {
+              query: term,
+              path: {
+                wildcard: "*",
+              },
+            },
+          },
+        },
+      ]);
+      return res.status(200).json(blogPosts);
+    } catch (e) {
+      return res.send({ massage: e.massage });
+    }
+  }
+};
+
+// like a blog
+
+exports.likePost = async (req, res) => {
+  try {
+    const post = await BlogModel.findById(req.params.id);
+
+    if (!post.likes.includes(req.body.userId)) {
+      await post.updateOne({ $push: { likes: req.body.userId } });
+      return res.status(200).json({ massage: "You Like this Post" });
+    } else {
+      await post.updateOne({ $pull: { likes: req.body.userId } });
+      return res.status(200).json({ massage: "You Dislike this Post" });
+    }
+  } catch (error) {
+    console.log(error.massage);
+  }
+};
