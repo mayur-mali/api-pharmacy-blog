@@ -105,16 +105,6 @@ exports.deleteBlog = async (req, res) => {
 exports.maxview = async (req, res) => {
   // const currentDate = dayjs(new Date()).format("L");
   try {
-    // const post = await BlogModel.find({
-    //   $and: [
-    //     {
-    //       createdAt: {
-    //         $eq: new Date(),
-    //       },
-    //     },
-    //     { views: { $gte: 0 } },
-    //   ],
-    // });
     const post = await BlogModel.find({
       views: { $gte: 10 },
     })
