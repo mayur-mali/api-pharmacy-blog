@@ -19,7 +19,12 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    blog: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Blog",
+    },
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("user", UserSchema);
+
+module.exports = mongoose.model("User", UserSchema);
