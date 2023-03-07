@@ -24,8 +24,12 @@ exports.getAllBlogs = async (req, res) => {
 
 exports.createBlog = async (req, res) => {
   try {
-    const blog = await BlogServices.createBlog(req.body);
-    res.status(201).json({ data: blog, status: "blog created" });
+    if (req.body.title || req.body.body) {
+      const blog = await BlogServices.createBlog(req.body);
+      res.status(201).json({ data: blog, status: "blog created" });
+    } else {
+      res.status(404).json({ massage: "fill require fileds" });
+    }
   } catch (err) {
     res.status(500).json({ error: err });
   }
@@ -44,7 +48,6 @@ exports.getBlogById = async (req, res) => {
           res.status(400).json({ massage: "post not found" });
         }
       });
-    //res.status(200).json({ data: blog, status: "success" });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: err.massege });
@@ -103,7 +106,6 @@ exports.deleteBlog = async (req, res) => {
 };
 
 exports.maxview = async (req, res) => {
-  // const currentDate = dayjs(new Date()).format("L");
   try {
     const post = await BlogModel.find({
       views: { $gte: 10 },
